@@ -1,8 +1,8 @@
 <template>
     <div class="item-card" v-for="obj in items" v-bind:key="obj.id">
         <div class="item-container">
-            <h2 class="item-title">{{ obj.titulo }}</h2>
-            <p class="item-description">{{ obj.descricao }}</p>
+            <h2 class="item-title">{{ obj.name }}</h2>
+            <p class="item-description">{{ obj.description }}</p>
         </div>
 
         <div class="item-sidebar">
@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <button class="button-remover" v-show="BtnRemover">
+            <button class="button-remover">
                 <div class="button-remover-container">
                     <p class="button-remover-container-title">Remover</p>
                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" viewBox="0 0 23 20" fill="none">
@@ -34,40 +34,23 @@
 </template>
 
 <script>
+import api from "@/services/api";
+import { onMounted, ref } from "vue";
+
 export default {
     name: 'ItemCard',
     components: {},
-    data() {
-        return {
-            BtnRemover: false,
-            items: [
-                {
-                    "id": 1,
-                    "titulo": "cadeira",
-                    "descricao": 'uma cadeira'
-                },
-                {
-                    "id": 2,
-                    "titulo": "mesa",
-                    "descricao": 'uma mesinha'
-                },
-                {
-                    "id": 3,
-                    "titulo": "mesa",
-                    "descricao": 'uma mesinha'
-                },
-                {
-                    "id": 4,
-                    "titulo": "mesa",
-                    "descricao": 'uma mesinha'
-                },
-                {
-                    "id": 5,
-                    "titulo": "mouse",
-                    "descricao": 'teste de coisinha aqui'
-                }
-            ]
-        }
+    setup() {
+        const items = ref([]);
+
+        const fetchItems = () => api
+            .get("itens/")
+            .then((response) => (items.value = response.data));
+
+        onMounted(fetchItems);
+
+        return { items };
+
     }
 }
 
@@ -93,6 +76,7 @@ export default {
     border: none;
     color: #fff;
     padding: 1.2em 0em;
+    cursor: pointer;
 }
 
 .button-remover-container {
@@ -129,6 +113,7 @@ export default {
     align-items: center;
     gap: 25px;
     padding: 22px;
+    cursor: pointer;
 }
 </style>
 
