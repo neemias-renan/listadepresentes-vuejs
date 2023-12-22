@@ -2,6 +2,11 @@
 
 Este projeto em Vue.js proporciona uma experiência simples e interativa para criar e visualizar uma lista de presentes do Papai Noel. Siga os passos abaixo para configurar e executar o projeto localmente.
 
+## Figma 🎨
+
+Aqui está a ideia do projeto.
+[Abra o Figma](https://www.figma.com/community/file/1319942639188565319)
+
 ## Pré-requisitos 🧐
 
 Certifique-se de ter o [Node.js](https://nodejs.org/) instalado em seu sistema antes de prosseguir.
