@@ -4,7 +4,7 @@
             <h4>Lista de Presentes</h4>
             <h1>papai noel</h1>
         </div>
-        <input class="button-create" type="button" value="Novo Presente">
+        <router-link to="/adicionar"><input class="button-create" type="button" value="Novo Presente"></router-link>
     </header>
 </template>
 

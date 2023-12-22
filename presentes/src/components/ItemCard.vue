@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <button class="button-remover">
+            <button class="button-remover" @click="removerItem(obj.id)">
                 <div class="button-remover-container">
                     <p class="button-remover-container-title">Remover</p>
                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" viewBox="0 0 23 20" fill="none">
@@ -35,7 +35,7 @@
 
 <script>
 import api from "@/services/api";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, onBeforeUnmount } from "vue";
 
 export default {
     name: 'ItemCard',
@@ -45,11 +45,30 @@ export default {
 
         const fetchItems = () => api
             .get("itens/")
-            .then((response) => (items.value = response.data));
+            .then((response) => (items.value = response.data.reverse()));
 
         onMounted(fetchItems);
 
-        return { items };
+        const pollInterval = setInterval(fetchItems, 2000);
+
+        onBeforeUnmount(() => {
+            clearInterval(pollInterval);
+        });
+
+
+
+        const removerItem = (itemId) => {
+            api.delete(`itens/${itemId}`)
+                .then(() => {
+                    // Atualizar a lista após a exclusão
+                    fetchItems();
+                })
+                .catch((error) => {
+                    console.error('Erro ao remover item:', error.response);
+                });
+        };
+
+        return { items, removerItem };
 
     }
 }

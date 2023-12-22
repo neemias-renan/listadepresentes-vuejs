@@ -1,21 +1,17 @@
 <template>
-  <TheHeader></TheHeader>
-  <ContainerItems></ContainerItems>
+  <HomeView></HomeView>
+  <RouterView></RouterView>
 </template>
 
 <script>
-import TheHeader from '@/components/TheHeader.vue'
-import ContainerItems from '@/components/ContainerItems.vue'
+import HomeView from '@/views/HomeView'
 
 export default {
   name: 'App',
   components: {
-    TheHeader,
-    ContainerItems,
+    HomeView,
   }
-  
 }
-
 </script>
 
 <style>
