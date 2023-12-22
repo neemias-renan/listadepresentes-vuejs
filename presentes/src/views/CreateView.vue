@@ -21,7 +21,7 @@
                 <input type="text" v-model="data.name" name="title" class="input-area" placeholder="Título" required>
                 <input type="text" v-model="data.description" name="description" class="input-area"
                     placeholder="Descrição do Item" required>
-                <input type="submit" value="Salvar" class="input-button-sumit">
+                <input type="submit" :value="isEditMode ? 'Atualizar' : 'Salvar'" class="input-button-sumit">
             </form>
         </div>
     </section>
@@ -29,7 +29,7 @@
 
 <script>
 import api from "@/services/api";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from 'vue-router'
 
 export default {
@@ -42,7 +42,16 @@ export default {
             description: "",
         });
 
-        const router = useRouter();
+        const route = useRouter();
+        const isEditMode = ref(false);
+
+        onMounted(() => {
+            const itemId = route.params;
+            
+            if (itemId && itemId.id) {
+                isEditMode.value = true;
+            }
+        });
 
         const submitForm = () => {
             api.post("itens/", data.value)
@@ -50,15 +59,15 @@ export default {
                     items.value = response.data;
                     data.value.name = "";
                     data.value.description = "";
-                    
-                    router.push("/");
+
+                    route.push("/");
                 })
                 .catch((error) => {
                     console.error('Erro na solicitação:', error.response);
                 });
         };
 
-        return { items, data, submitForm };
+        return { items, data, submitForm, isEditMode };
     }
 }
 </script>

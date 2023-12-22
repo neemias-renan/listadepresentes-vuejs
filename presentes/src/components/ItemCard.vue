@@ -6,7 +6,7 @@
         </div>
 
         <div class="item-sidebar">
-            <div class="edit-button">
+            <router-link :to="`/item/${obj.id}`" class="edit-button">
                 <div class="link-edit-button">
                     <p>Editar</p>
                     <svg width="65" height="5" viewBox="0 0 65 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,7 +17,7 @@
                         <circle cx="62.5" cy="2.5" r="2.5" fill="#F7004F" />
                     </svg>
                 </div>
-            </div>
+            </router-link>
 
             <button class="button-remover" @click="removerItem(obj.id)">
                 <div class="button-remover-container">
@@ -35,7 +35,7 @@
 
 <script>
 import api from "@/services/api";
-import { onMounted, ref, onBeforeUnmount } from "vue";
+import { onMounted, ref } from "vue";
 
 export default {
     name: 'ItemCard',
@@ -49,16 +49,8 @@ export default {
 
         onMounted(fetchItems);
 
-        const pollInterval = setInterval(fetchItems, 2000);
-
-        onBeforeUnmount(() => {
-            clearInterval(pollInterval);
-        });
-
-
-
         const removerItem = (itemId) => {
-            api.delete(`itens/${itemId}`)
+            api.delete(`itens/${itemId}/`)
                 .then(() => {
                     // Atualizar a lista após a exclusão
                     fetchItems();
@@ -69,7 +61,6 @@ export default {
         };
 
         return { items, removerItem };
-
     }
 }
 
@@ -83,6 +74,10 @@ export default {
     background-color: white;
     display: flex;
     height: 200px;
+}
+
+.item-card:nth-child(1){
+    margin-top: 25%;
 }
 
 .item-sidebar {
